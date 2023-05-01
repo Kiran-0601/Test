@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DropdownController;
 
 
 /*
@@ -23,3 +24,8 @@ Route::get('add', [EmployeeController::class,'index']);
 Route::post('store', [EmployeeController::class,'store'])->name('store');
 Route::get('edit/{employee}', [EmployeeController::class, 'edit'])->name('edit');
 Route::post('delete/{employee}', [EmployeeController::class, 'delete'])->name('delete');
+Route::post('update/{employee}', [EmployeeController::class,'update'])->name('update');
+
+Route::get('dependent-dropdown', [DropdownController::class, 'index']);
+Route::post('api/fetch-states', [DropdownController::class, 'fetchState']);
+Route::post('api/fetch-cities', [DropdownController::class, 'fetchCity']);

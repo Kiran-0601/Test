@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Employee;
-
+use App\Models\Country;
+use App\Models\State;
 class EmployeeController extends Controller
 {
     //
-    public function index(){
+    public function index(Request $request){
         $employee = Employee::get();
+        $countries = Country::get(["cname", "id"]);
         // dd($employee);
-        return view('Employee.index',compact('employee'));
+        // $states = State::where("country_id",$request->country_id)->get(["name", "id"]);
+        return view('Employee.index',compact('employee','countries'));
     }
 
     public function store(Request $request){
@@ -30,13 +33,14 @@ class EmployeeController extends Controller
         $input = $request->all();
   
         if ($image = $request->file('profile_image')) {
-            $destinationPath = 'images/';
+            $destinationPath = 'public/images';
             $postImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $postImage);
             $input['profile_image'] = "$postImage";
         }
   
         Employee::create($input);
+        echo "Data Updated";
     }
 
     public function edit(Employee $employee){
@@ -45,7 +49,32 @@ class EmployeeController extends Controller
 
     }
 
-    public function update(Employee $employee){
+    public function update(Employee $employee , Request $request){
+
+        $request->validate([
+            'name' => 'required',
+            'company_name' => 'required',
+            'dob' => 'required',           
+            'country'=> 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'adress' => 'required',
+            'profile_image' => 'required',
+        ]);
+  
+        $input = $request->all();
+  
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/';
+            $postImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $postImage);
+            $input['image'] = "$postImage";
+        }else{
+            unset($input['image']);
+        }
+          
+        $employee->update($input);
+        echo "Data Updated";
         
     }
     public function delete(Employee $employee){
