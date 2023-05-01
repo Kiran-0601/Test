@@ -21,3 +21,5 @@ Route::get('/', function () {
 
 Route::get('add', [EmployeeController::class,'index']);
 Route::post('store', [EmployeeController::class,'store'])->name('store');
+Route::get('edit/{employee}', [EmployeeController::class, 'edit'])->name('edit');
+Route::post('delete/{employee}', [EmployeeController::class, 'delete'])->name('delete');

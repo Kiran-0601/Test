@@ -9,8 +9,9 @@ class EmployeeController extends Controller
 {
     //
     public function index(){
-
-        return view('Employee.index');
+        $employee = Employee::get();
+        // dd($employee);
+        return view('Employee.index',compact('employee'));
     }
 
     public function store(Request $request){
@@ -40,10 +41,15 @@ class EmployeeController extends Controller
 
     public function edit(Employee $employee){
 
+        return view('Employee.edit',compact('employee'));
+
     }
 
     public function update(Employee $employee){
         
+    }
+    public function delete(Employee $employee){
+
     }
 
 }
