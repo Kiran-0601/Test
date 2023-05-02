@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\Country;
 use App\Models\State;
+use PhpParser\Node\Stmt\Echo_;
+
 class EmployeeController extends Controller
 {
     //
     public function index(Request $request){
         $employee = Employee::get();
-        $countries = Country::get(["cname", "id"]);
-        // dd($employee);
-        // $states = State::where("country_id",$request->country_id)->get(["name", "id"]);
+        $countries = Country::get(["name","id"]);
         return view('Employee.index',compact('employee','countries'));
     }
 
@@ -78,7 +78,9 @@ class EmployeeController extends Controller
         
     }
     public function delete(Employee $employee){
-
+        $employee->delete();
+        
+        echo "Data Deleted";
     }
 
 }

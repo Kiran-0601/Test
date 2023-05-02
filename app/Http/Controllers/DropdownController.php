@@ -9,21 +9,16 @@ use App\Models\City;
 
 class DropdownController extends Controller
 {
-    public function index()
+    public function getState(Request $request)
     {
-        $countries = Country::get();
-        // dd($employee);
-        return view('Employee.index',compact('countries'));
-
-    }
-    public function fetchState(Request $request)
-    {
-        $data['states'] = State::where("country_id",$request->country_id)->get(["name", "id"]);
+        $data['states'] = State::where("country_id",$request->country_id)
+                    ->get(["name","id"]);
         return response()->json($data);
     }
-    public function fetchCity(Request $request)
+    public function getCity(Request $request)
     {
-        $data['cities'] = City::where("state_id",$request->state_id)->get(["name", "id"]);
+        $data['cities'] = City::where("state_id",$request->state_id)
+                    ->get(["name","id"]);
         return response()->json($data);
     }
 }

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <style>
     body {
@@ -18,6 +19,7 @@
         text-align: center;
 
     }
+
     th,
     td {
         padding: 15px;
@@ -48,38 +50,31 @@
                 <textarea name="adress" class="form-control" required></textarea><br>
             </div>
             <div class="form-group">
-                <label for="Select country">Select Country</label>
-                <select name="country_id" id="country-dropdown" required class="form-control">
-                    <option> Select Country</option>
+                <label for="country">Country</label>
+                <select class="form-control" id="country-dropdown">
                     <option value="">Select Country</option>
-                        @foreach ($countries as $country) 
-                            <option value="{{$country->id}}">
-                                {{$country->cname}}
-                            </option>
-                        @endforeach                   
-                </select><br>
+                    @foreach ($countries as $country)
+                    <option value="{{$country->id}}">
+                        {{$country->name}}
+                    </option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group">
-                <label for="Select state">Select state</label>
-                <select name="state" id="state-dropdown" required class="form-control">
-
-                    <option> Select state </option>
-                    <option value="Gujarat">Gujarat</option>
-                    <option value="Maharashtra">Maharashtra</option>
-                </select><br>
+                <label for="state">State</label>
+                <select class="form-control" id="state-dropdown">
+                </select>
             </div>
-            <label for="Select city">Select city</label>
-            <select name="city" id="city-dropdown" required class="form-control">
-                <option> Select state </option>
-                <option value="Dahod">Dahod</option>
-                <option value="Vadodara">Vadodara</option>
-
-            </select><br>
+            <div class="form-group">
+                <label for="city">City</label>
+                <select class="form-control" id="city-dropdown">
+                </select>
+            </div>
             <label for="profile_pic">Upload Profile Photo</label>
             <input type="file" class="form-control" name="profile_image" />
 
             <button type="submit">Submit</button>
-            
+
         </form>
     </div>
     <h1>Employee Data</h1>
@@ -106,55 +101,61 @@
             <td>{{ $emp->city }}</td>
             <td><img src="{{ asset('storage/images/'.$emp->profile_image) }}" width="100px"></td>
             <td><a href="{{ route('edit',$emp->id)}}">Edit</a></td>
-            <td><a href="{{ route('delete', $emp->id)}}">Delete</a></td>
+            <td>
+            <form method="post" action="{{route('delete',$emp->id)}}">
+                            @method('POST')
+                            @csrf
+                            <a>
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button></a>
+                        </form></td>
         </tr>
         @endforeach
 
     </table>
-   
+
 </body>
 <script>
-$(document).ready(function() {
-    $('#country-dropdown').on('change', function() {
-        var country_id = this.value;
-        $("#state-dropdown").html('');
-        $.ajax({
-            url:"{{url('get-states-by-country')}}",
-            type: "POST",
-            data: {
-            country_id: country_id,
-            _token: '{{csrf_token()}}' 
-            },
-            dataType : 'json',
-            success: function(result){
-                $('#state-dropdown').html('<option value="">Select State</option>'); 
-                $.each(result.states,function(key,value){
-                $("#state-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-                });
-                $('#city-dropdown').html('<option value="">Select State First</option>'); 
-            }
+    $(document).ready(function() {
+        $('#country-dropdown').on('change', function() {
+            var country_id = this.value;
+            $("#state-dropdown").html('');
+            $.ajax({
+                url: "{{url('get-states-by-country')}}",
+                type: "POST",
+                data: {
+                    country_id: country_id,
+                    _token: '{{csrf_token()}}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#state-dropdown').html('<option value="">Select State</option>');
+                    $.each(result.states, function(key, value) {
+                        $("#state-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                    $('#city-dropdown').html('<option value="">Select State First</option>');
+                }
+            });
+        });
+        $('#state-dropdown').on('change', function() {
+            var state_id = this.value;
+            $("#city-dropdown").html('');
+            $.ajax({
+                url: "{{url('get-cities-by-state')}}",
+                type: "POST",
+                data: {
+                    state_id: state_id,
+                    _token: '{{csrf_token()}}'
+                },
+                dataType: 'json',
+                success: function(result) {
+                    $('#city-dropdown').html('<option value="">Select City</option>');
+                    $.each(result.cities, function(key, value) {
+                        $("#city-dropdown").append('<option value="' + value.id + '">' + value.name + '</option>');
+                    });
+                }
+            });
         });
     });
-        
-    $('#state-dropdown').on('change', function() {
-        var state_id = this.value;
-        $("#city-dropdown").html('');
-        $.ajax({
-            url:"{{url('get-cities-by-state')}}",
-            type: "POST",
-            data: {
-            state_id: state_id,
-            _token: '{{csrf_token()}}' 
-            },
-            dataType : 'json',
-            success: function(result){
-                $('#city-dropdown').html('<option value="">Select City</option>'); 
-                $.each(result.cities,function(key,value){
-                $("#city-dropdown").append('<option value="'+value.id+'">'+value.name+'</option>');
-                });
-            }
-        });
-    });
-});
 </script>
+
 </html>
