@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
 <body>
-
-
-
-
 <?php  
     class Fruit  
     {  
@@ -23,16 +19,13 @@
     function sell_price()
     {
     echo $color=$this->color."<br>";
-    echo $sell_price= $this->buy_price + $this->profit;  // this will be allowing subclasses to access protected variable.
-
+    echo $sell_price= $this->buy_price + $this->profit;  // this will be allowing subclasses to access protected variable
     echo $price=$this->sell_price."<br/>"; // this will not allow to access private variables.
     }
-      
     }     
     $obj= new Mango;  
     $obj->get_detail();  
-    $obj->sell_price();  
-      
+    $obj->sell_price();   
     ?>  
  
 </body>
