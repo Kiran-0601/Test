@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <body>
-
 <?php
 class Book {
   public $author;
@@ -43,6 +42,5 @@ echo "The price of Mahabharat is " .$mahabharat->get_price()."<br>";
 $ramayan->set_price(500);
 echo "The price of Ramayan is " .$ramayan->get_price()."<br>";
 ?>
- 
 </body>
 </html>
