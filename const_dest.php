@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <body>
-
 <?php
 class Book {
   //Member Variable
@@ -25,7 +24,6 @@ class Book {
   function __destruct() {
     echo "The Book is {$this->author} and the Price is {$this->price}.<br>"; 
   }
-
 }
 
 // Creating new objects ..
@@ -38,8 +36,6 @@ echo $geeta->get_author()."<br>";
 echo $geeta->get_price()."<br>";
 echo $mahabharat->get_author()."<br>";
 echo $mahabharat->get_price()."<br>";
-
 ?>
- 
 </body>
 </html>
