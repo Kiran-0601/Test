@@ -10,17 +10,17 @@
     protected $profit=400;     // can only access within derived class.
     function get_detail()  
     {  
-    echo $color=$this->color."<br>";
-    echo $price=$this->sell_price."<br/>";  // This private variable can only be accessed within the class.
+    echo $this->color."<br>";
+    echo $this->sell_price."<br/>";  // This private variable can only be accessed within the class.
     }  
     }
     class Mango extends Fruit  
     {
     function sell_price()
     {
-    echo $color=$this->color."<br>";
-    echo $sell_price= $this->buy_price + $this->profit;  // this will be allowing subclasses to access protected variable
-    echo $price=$this->sell_price."<br/>"; // this will not allow to access private variables.
+    echo  $this->color."<br>";
+    echo  $this->buy_price + $this->profit;  // this will be allowing subclasses to access protected variable
+    echo  $this->sell_price."<br/>"; // this will not allow to access private variables.ERROR.
     }
     }     
     $obj= new Mango;  
