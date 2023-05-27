@@ -30,22 +30,23 @@ class IPhone extends Phone
   }
 }
 
-class Oneplus extends IPhone{
-  public $name;
-  public $color;
+class Oneplus extends Phone{
 
-  function __construct($name, $color) {
-    $this->name = $name;
-    $this->color = $color;
+
+  function deta()
+  {
+    echo "I am a $this->name and my color is $this->color ";  // Member function of child class.
+   
   }
+  
 }
 
 $Obj = new IPhone("Apple iPhone 13 Pro", "pink"); /* Create object (child class instance) */
 $Obj2 = new Oneplus("Android", "red"); /* Create object (child class instance) */
 $Obj->detail(); /*call member function of Childclass*/
 $Obj->features(); /*call member function of ChildClass*/
-$Obj2->detail(); /*call member function of ParentClass*/
-$Obj2->features(); //call member function of ParentClass 
+$Obj2->deta(); /*call member function of ParentClass*/
+ //call member function of ParentClass 
 ?>
 </body>
 </html>
