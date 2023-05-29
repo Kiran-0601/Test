@@ -43,7 +43,6 @@
   Registration Form
 </title>
 <body>
-
 <?php
 // define variables and set to empty values
 $nameErr = $emailErr = $gendererr = $monoerr = $filerror = $websiteErr = "";
@@ -142,7 +141,6 @@ function test_input($data) {
     <input type="submit" value="SUBMIT" name="submit" class="registerbtn">
   </div>
 </form>
-
 <?php
 $target_dir = "/var/www/html/php/uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
