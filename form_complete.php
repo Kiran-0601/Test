@@ -142,6 +142,27 @@ function test_input($data) {
   </div>
 </form>
 <?php
+echo $_POST['name']."<br>";
+echo $_POST['email']."<br>";
+echo $_POST['website']."<br>";
+echo $_POST['mono']."<br>";
+echo $_POST['gender']."<br>";
+if (isset($_POST["reading"]) || isset($_POST["playing"]) || isset($_POST["singing"]) ){
+echo "Hobbies :: <br>"; 
+}
+if (isset($_POST["playing"])) {
+  echo "Playing  ";    
+} 
+if (isset($_POST["reading"])) {
+  echo "Reading  ";    
+} 
+if (isset($_POST["singing"])) {
+  echo "Singing<br>";    
+} 
+echo $_POST['address']."<br>";
+?>
+
+<?php
 $target_dir = "/var/www/html/php/uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
