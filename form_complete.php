@@ -144,8 +144,7 @@ function test_input($data) {
 </form>
 
 <?php
-$target_dir = "C:/xampp/htdocs/All_Tasks/uploads/";
-//$target_dir = "/var/www/html/php/uploads/";
+$target_dir = "/var/www/html/php/uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
