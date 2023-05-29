@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <html>
 <style>
   body{
@@ -43,159 +46,43 @@
   Registration Form
 </title>
 <body>
-<?php
-// define variables and set to empty values
-$nameErr = $emailErr = $gendererr = $monoerr = $filerror = $websiteErr = "";
-$name = $email = $gender = $comment = $mono = $gender = $address = $website = "";
-
-if (isset($_POST['submit'])){
-  if (empty($_POST["name"])) {
-    $nameErr = "Name is required";
-  } else {
-    $name = test_input($_POST["name"]);
-    if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
-      $nameErr = "Only letters and white space allowed";
-    }
-  }
-  if (empty($_POST["email"])) {
-    $emailErr = "Email is required";
-  } else {
-    $email = test_input($_POST["email"]);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-      $emailErr = "Invalid email format";
-    }
-  }
-  if (empty($_POST["website"])) {
-    $websiteErr = "URL Is Required";
-  } else {
-    $website = test_input($_POST["website"]);
-    // check if URL address syntax is valid
-    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",$website)) {
-      $websiteErr = "Invalid URL";
-    }    
-  }
-  if (empty($_POST["mono"])) {
-    $monoerr = "Mobile Number Is Required";
-  } else {
-    $mono = test_input($_POST["mono"]);
-    if (!preg_match("/^[+]?[1-9][0-9]{9,14}$/", $mono)) {
-      $monoerr = "Only Digits Are Allowed";
-    }
-  }
-
-  if (empty($_POST["gender"])) {
-    $gendererr = "Gender Is Required";
-  } else {
-    $gender = test_input($_POST["gender"]);
-  }
-  
-  if (empty($_POST["fileToUpload"])) {
-    $filerror = "Profile Pic Is Required";
-  } else {
-    $profile = test_input($_POST["fileToUpload"]);
-  }
-  if (empty($_POST["address"])) {
-    //$address = "Address Is Required";
-  } else {
-    $address = test_input($_POST["address"]);
-  } 
-}
-function test_input($data) {
-  $data = trim($data);
-  return $data;
-}
-?>
-<form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post" enctype="multipart/form-data">
+<form action="data.php" method="post" enctype="multipart/form-data">
   <div class="container">
     <center><h1>User Registration Form</h1></center>
     <label>Name:</label>
-    <input type="text" name="name" value="<?php echo $name;?>" placeholder="Enter Your Name">
-    <span class="error"><?php echo $nameErr;?></span>
+    <input type="text" name="name" value="<?php if (isset($_SESSION["name"])) echo $_SESSION["name"]; session_destroy();?>" placeholder="Enter Your Name">
+    <span class="error"><?php if (isset($_SESSION['mySessionArray']['nameErr'])) echo $_SESSION['mySessionArray']['nameErr']; session_destroy();?></span>
     <br><br>
     E-mail: 
-    <input type="text" name="email" value="<?php echo $email;?>" placeholder="Enter E-mail ID">
-    <span class="error"><?php echo $emailErr;?></span>
+    <input type="text" name="email" value="<?php if (isset($_SESSION["email"])) echo $_SESSION["email"]; session_destroy();?>" placeholder="Enter E-mail ID">
+    <span class="error"><?php if (isset($_SESSION['mySessionArray']["emailErr"])) echo $_SESSION['mySessionArray']["emailErr"]; session_destroy();?></span>
     <br><br>
-    Website: <input type="text" name="website" value="<?php echo $website;?>" placeholder="Enter Web Url">
-    <span class="error"><?php echo $websiteErr;?></span>
+    Website: <input type="text" name="website" value="<?php if (isset($_SESSION["website"])) echo $_SESSION["website"]; session_destroy();?>" placeholder="Enter Web Url">
+    <span class="error"><?php if (isset($_SESSION['mySessionArray']["websiteErr"])) echo $_SESSION['mySessionArray']["websiteErr"]; session_destroy();?></span>
     <br><br>
     Mobile No :
-    <input type="text" name="mono" value="<?php echo $mono;?>" placeholder="Enter Mobile No"/>
-    <span class="error"><?php echo $monoerr;?></span><br><br>
-    Gender:
-    <input type="radio" name="gender" <?php if (isset($gender) && $gender=="female") echo "checked";?> value="female">Female
-    <input type="radio" name="gender" <?php if (isset($gender) && $gender=="male") echo "checked";?> value="male">Male
-    <input type="radio" name="gender" <?php if (isset($gender) && $gender=="other") echo "checked";?> value="other">Other  
+    <input type="text" name="mono" value="<?php if (isset($_SESSION["mono"])) echo $_SESSION["mono"]; session_destroy();?>" placeholder="Enter Mobile No"/>
+    <span class="error"><?php if (isset($_SESSION['mySessionArray']["monoerr"])) echo $_SESSION['mySessionArray']["monoerr"]; session_destroy();?></span>
     <br><br>
-    <span class="error"><?php echo $gendererr;?></span><br><br>
+    Gender:
+    <input type="radio" name="gender" <?php if (isset($_SESSION["gender"]) && $_SESSION["gender"]=="female") echo "checked";?> value="female">Female
+    <input type="radio" name="gender" <?php if (isset($_SESSION["gender"]) && $_SESSION["gender"]=="male") echo "checked";?> value="male">Male
+    <input type="radio" name="gender" <?php if (isset($_SESSION["gender"]) && $_SESSION["gender"]=="other") echo "checked";?> value="other">Other  
+    <br><br>
+    <span class="error"><?php if (isset($_SESSION['mySessionArray']["gendererr"])) echo $_SESSION['mySessionArray']["gendererr"]; session_destroy();?>
+    </span><br><br>
     Hobbies :
     <input type="checkbox" name="playing" value="Playing"/>Playing
     <input type="checkbox" name="reading" value="Reading"/>Reading
     <input type="checkbox" name="singing" value="Singing"/>Singing
     <br><br>
     Address :
-    <textarea name="address"><?php echo $address;?></textarea>
+    <textarea name="address"><?php if (isset($_SESSION["address"])) echo $_SESSION["address"]; session_destroy();?></textarea>
     Select Profile Picture :
-    <input type="file" name="fileToUpload" id="fileToUpload" value="<?php echo $profile; ?>">
-    <span class="error"><?php echo $filerror;?></span> 
+    <input type="file" name="fileToUpload" id="fileToUpload">
     <input type="submit" value="SUBMIT" name="submit" class="registerbtn">
   </div>
 </form>
-<?php
-echo $_POST['name']."<br>";
-echo $_POST['email']."<br>";
-echo $_POST['website']."<br>";
-echo $_POST['mono']."<br>";
-echo $_POST['gender']."<br>";
-if (isset($_POST["reading"]) || isset($_POST["playing"]) || isset($_POST["singing"]) ){
-echo "Hobbies :: <br>"; 
-}
-if (isset($_POST["playing"])) {
-  echo "Playing  ";    
-} 
-if (isset($_POST["reading"])) {
-  echo "Reading  ";    
-} 
-if (isset($_POST["singing"])) {
-  echo "Singing<br>";    
-} 
-echo $_POST['address']."<br>";
-?>
 
-<?php
-$target_dir = "/var/www/html/php/uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-  
-if($imageFileType!=""){
-  if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-  }   
-  if ($_FILES["fileToUpload"]["size"] > 2000000) {
-    echo "File Should be max 2 MB. Your File is too large.";
-    $uploadOk = 0;
-  }
-  // Allow certain file formats
-  if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"){
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-  }
-  // Check if $uploadOk is set to 0 by an error
-  if ($uploadOk == 0) {
-    echo "your file was not uploaded.";
-   // if everything is ok, try to upload file
-  } 
-  else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-      echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-    } 
-    else {
-      echo "Sorry, there was an error uploading your file.";
-    }
-  }
-}
-?>
 </body>
 </html> 
