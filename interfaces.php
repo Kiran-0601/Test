@@ -9,7 +9,7 @@ interface Mother {
     public function job();
 }
 
-interface Child extends Father, Mother{    // Multiple Inheritance by using more interfaces
+interface Child extends Father, Mother{    // Multiple Inheritance by using interfaces
     public function study();
 }
 
@@ -31,7 +31,6 @@ class Girl extends Boy implements Child {  // Accessed Multiple Inheritance by u
     echo "I m doing study.";
   }
 }
-
 $child = new Girl();
 $child->bussiness();
 $child->job();
