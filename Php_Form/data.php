@@ -86,60 +86,59 @@ $_SESSION['mySessionArray']['monoerr']=$monoerr;
 $myarray = $_SESSION['mySessionArray'];
 
 if (!empty(array_filter($myarray))){ // Check The array has at least one defined value or not.
-    header("Location: form_complete.php"); // redirected to the form for displaying errors.
+  header("Location: form_complete.php"); // redirected to the form for displaying errors.
 } 
 else{ //if array is empty then showing data of the form
-    echo $_POST['name']."<br>";
-    echo $_POST['email']."<br>";
-    echo $_POST['website']."<br>";
-    echo $_POST['mono']."<br>";
-    echo $_POST['gender']."<br>";
-      if (isset($_POST["reading"]) || isset($_POST["playing"]) || isset($_POST["singing"]) ){
-         echo "Hobbies :: <br>"; 
-      }
-      if (isset($_POST["playing"])) {
-         echo "Playing  ";    
-      } 
-      if (isset($_POST["reading"])) {
-         echo "Reading  ";    
-      } 
-      if (isset($_POST["singing"])) {
-         echo "Singing<br>";    
-      } 
-      echo $_POST['address']."<br>";
+  echo $_POST['name']."<br>";
+  echo $_POST['email']."<br>";
+  echo $_POST['website']."<br>";
+  echo $_POST['mono']."<br>";
+  echo $_POST['gender']."<br>";
+  if (isset($_POST["reading"]) || isset($_POST["playing"]) || isset($_POST["singing"]) ){
+    echo "Hobbies :: <br>"; 
+  }
+  if (isset($_POST["playing"])) {
+    echo "Playing  ";    
+  } 
+  if (isset($_POST["reading"])) {
+    echo "Reading  ";    
+  } 
+  if (isset($_POST["singing"])) {
+    echo "Singing<br>";    
+  } 
+  echo $_POST['address']."<br>";
 
-    $target_dir = "/var/www/html/php/uploads/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    if($imageFileType!=""){
-       if (file_exists($target_file)) {
-         echo "Sorry, file already exists.";
-         $uploadOk = 0;
-        }   
-        if ($_FILES["fileToUpload"]["size"] > 2000000) {
-         echo "File Should be max 2 MB. Your File is too large.";
-         $uploadOk = 0;
-        }
-        // Allow certain file formats
-        if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"){
-          echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-          $uploadOk = 0;
-        }
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-           echo "your file was not uploaded.";
-          // if everything is ok, try to upload file
-        } 
-        else {
-           if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-             echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-           }
-           else {
-               echo "Sorry, there was an error uploading your file.";
-            }
-        }
+  $target_dir = "/var/www/html/php/uploads/";
+  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+  $uploadOk = 1;
+  $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+  if($imageFileType!=""){
+    if (file_exists($target_file)) {
+      echo "Sorry, file already exists.";
+      $uploadOk = 0;
+    }   
+    if ($_FILES["fileToUpload"]["size"] > 2000000) {
+      echo "File Should be max 2 MB. Your File is too large.";
+      $uploadOk = 0;
     }
+    // Allow certain file formats
+    if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"){
+      echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+      $uploadOk = 0;
+    }
+    // Check if $uploadOk is set to 0 by an error
+    if ($uploadOk == 0) {
+      echo "your file was not uploaded.";
+      // if everything is ok, try to upload file
+    }
+    else {
+      if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
+      }
+      else {
+        echo "Sorry, there was an error uploading your file.";
+      }
+    }
+  }
 }
-
 ?>

@@ -2,34 +2,33 @@
 // Parent class
 abstract class Father {
   public $name;
-  public function __construct($name) {
+  public function __construct($name,$work) {
     $this->name = $name;
+    $this->work = $work;
   }
-  abstract public function intro() : string;
+  abstract public function work($work) : string;
 }
 
 // Child classes
 class Girlchild extends Father {
-  public function intro() : string {
-    return "Choose German quality! I'm an $this->name!";
+  public function work() : string {
+    return "$this->name is doing $this->work";
   }
 }
 
 class Boychild extends Father {
-  public function intro() : string {
-    return "Proud to be Swedish! I'm a $this->name!";
+  public function work($work) : string {
+    return "$this->name is a $this->work";
   }
 }
 
 // Create objects from the child classes
-$reema = new Girlchild("Reema");
-echo $reema->intro();
+$reema = new Girlchild("Reema","study");
+echo $reema->work();
 echo "<br>";
 
 $mehul = new Boychild("Mehul");
-echo $volvo->intro();
+echo $mehul->work();
 echo "<br>";
 
-$citroen = new citroen("Citroen");
-echo $citroen->intro();
 ?>
