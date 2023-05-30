@@ -1,3 +1,5 @@
+<html>
+<body>
 <?php
 interface Father {
   public function bussiness();
@@ -36,3 +38,5 @@ $child->job();
 $child->study();
 $child->play();
 ?> 
+</body>
+</html>
