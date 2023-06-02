@@ -5,15 +5,16 @@ session_start();
 <style>
   body{
     font-family: 'Times New Roman', Times, serif;
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
     width: 100%;
     margin-left: 25%;
     font-size: 18px;
   }
   .container {
-    padding: 30px;
+    padding: 20px;
     background-color: lightblue;
+    width: 80%;
   }
   form{
     width: 50%;
@@ -32,14 +33,11 @@ session_start();
     padding: 10px 0;
   }
   .registerbtn {
-    background-color: #4CAF50;
-    color: white;
-    padding: 16px 20px;
+    background-color: #ac7339;
+    padding: 10px;
     margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    opacity: 0.9;
+    width: 30%;
+    border: lightblue;
   }
 </style>
 <title>

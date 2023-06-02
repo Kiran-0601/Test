@@ -1,0 +1,62 @@
+body{
+    font-family: Calibri, Helvetica, sans-serif;
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    margin-left: 25%;
+  }
+  .container {
+      padding: 30px;
+    background-color: lightblue;
+  }
+  form{
+      width: 50%;
+  }
+  .error {color: #FF0000;}
+  
+  input[type=text], input[type=password], input[type=file],textarea {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+   div {
+          padding: 10px 0;
+      }
+   h1{
+      color: #990000;
+    }
+  .registerbtn {
+    background-color: #990000;
+    color: white;
+    padding: 10px 15px;
+    margin: 8px 0;
+    font-size: 16px;
+    width: 20%;
+  }
+  #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+  }
+  
+  #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 9px;
+  }
+  #customers a {
+  color: #990000;
+  }
+  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #customers tr:hover {background-color: #ddd;}
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: lightblue;
+    color: black;
+  }
