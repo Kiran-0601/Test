@@ -61,6 +61,25 @@
     return $data;
   }
 ?>
+<?php
+  if (isset($_POST['submit'])){
+    if($nameErr == "" && $genderErr == "" && $monoerr == "" && $websiteErr == "" && $emailErr == ""){
+      $name = $_POST['name'];
+      $email = $_POST['email'];
+      $website = $_POST['website'];
+      $mobile =  $_POST['mono'];
+      $gender = $_POST['gender'];
+      $img=$_FILES["fileToUpload"]["name"];
+      
+      $sql = "INSERT INTO `employee`(`name`, `email`, `website`, `mobile`, `gender`, `image`) VALUES ('$name','$email','$website','$mobile','$gender','$img')";
+      if ($conn->query($sql) === TRUE) {
+        echo "New record created successfully";
+      }else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+      }
+    }
+  }
+?>
 <form action="<?php $_SERVER["PHP_SELF"];?>" method="post" enctype="multipart/form-data">
 <div class="container">
 <center><h1>User Registration Form</h1></center>
@@ -88,14 +107,13 @@
   <input type="checkbox" name="singing" value="Singing"/>Singing
   <br><br>
   Address :
-  <textarea name="address"><?php echo $address;?></textarea>
+  <textarea name="address"><?php echo $address;?></textarea>-->
   Select Profile Picture :
-  <input type="file" name="fileToUpload" id="fileToUpload" value="<?php echo $profile; ?>">
-  <span class="error"><?php echo $filerror;?></span>  -->
+  <input type="file" name="fileToUpload" id="fileToUpload">
+  <span class="error"><?php echo $filerror;?></span> 
   <input type="submit" value="SUBMIT" name="submit" class="registerbtn">
 </div>
 
-</form>
 <h2>All Users</h2>
 <table id="customers">
   <thead>
@@ -120,7 +138,7 @@
     <td><?php echo $row['id']; ?></td>
     <td><?php echo $row['name']; ?></td>
     <td><?php echo $row['email']; ?></td>
-    <td><?php echo $row['website']; ?></td>
+    <td><img src="uploads/<?php  echo $row['image'];?>" width="80" height="80"></td>
     <td><?php echo $row['mobile']; ?></td>
     <td><?php echo $row['gender']; ?></td>
     <td><a href="update.php?id=<?php echo $row['id']; ?>">Edit</a>&nbsp;<a class="btn btn-danger" href="delete.php?id=<?php echo $row['id']; ?>">Delete</a></td>
@@ -131,72 +149,54 @@
   </tbody>
 </table>
 
+</form>
+
 <?php
-  if (isset($_POST['submit'])){
-    if($nameErr == "" && $genderErr == "" && $monoerr == "" && $websiteErr == "" && $emailErr == ""){
-      $name = $_POST['name'];
-      $email = $_POST['email'];
-      $website = $_POST['website'];
-      $mobile =  $_POST['mono'];
-      $gender = $_POST['gender'];
-      
-      $sql = "INSERT INTO `employee`(`name`, `email`, `website`, `mobile`, `gender`) VALUES ('$name','$email','$website','$mobile','$gender')";
-      if ($conn->query($sql) === TRUE) {
-        echo "New record created successfully";
-      }else {
-      echo "Error: " . $sql . "<br>" . $conn->error;
-      }
-      $conn->close();
-    }
-  }
-?>
-<?php
-$target_dir = "/var/www/html/php/uploads/";
+$target_dir = "/var/www/html/php/OOP/Test/Php_Crud/uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
 // Check if image file is a actual image or fake image
 
-  $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-  if($check !== false) {
-    //echo "File is an image - " . $check["mime"] . ".";
-    $uploadOk = 1;
-  } else {
-    //echo "File is not an image.";
-    $uploadOk = 0;
-  }
-// Check if file already exists
-if (empty($_POST["fileToUpload"])) {
-if (file_exists($target_file)) {
-  echo "Sorry, file already exists.";
+$check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+if($check !== false) {
+  //echo "File is an image - " . $check["mime"] . ".";
+  $uploadOk = 1;
+} else {
+  //echo "File is not an image.";
   $uploadOk = 0;
 }
+// Check if file already exists
+if (empty($_POST["fileToUpload"])) {
+  if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+  }
 }
-
 // Check file size
-
 if ($_FILES["fileToUpload"]["size"] > 2000000) {
   echo "File Should be max 2 MB. Your File is too large.";
   $uploadOk = 0;
 }
 // Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
   echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
   $uploadOk = 0;
 }
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
   echo "your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+} 
+else {
+  if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-  } else {
+  } 
+  else {
     echo "Sorry, there was an error uploading your file.";
   }
 }
 ?>
+
 </body>
 </html> 

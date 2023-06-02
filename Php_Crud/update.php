@@ -11,7 +11,7 @@ require 'db.php';
     $user_id = $_POST['user_id'];
     $website = $_POST['website'];
     $email = $_POST['email'];
-    $mobile = $_POST['mobile'];
+    $mobile = $_POST['mono'];
     $gender = $_POST['gender']; 
     $sql = "UPDATE `employee` SET `name`='$name',`email`='$email',`website`='$website',`mobile`='$mobile',`gender`='$gender' WHERE `id`='$user_id'"; 
     $result = $conn->query($sql); 
