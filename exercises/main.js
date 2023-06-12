@@ -276,7 +276,7 @@
     
     // 38.Find the class of the clicked element
 
-    $("div").click(function() {
+    $("h2").click(function() {
       var colorClass = this.className;
       alert("My Class name is" + colorClass);
     });

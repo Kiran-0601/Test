@@ -206,7 +206,7 @@
   <button id="setValueButton">Set Value</button>
   
   <h3>38. Find the class of the clicked element</h3>
-  <div class="button">Click me To know my class name</div>
+  <h2 class="button">Click me To know my class name</h2>
 
   <h3>39. Set href attribute at runtime using jquery.</h3>
   <a id="myLink" href="#">Click me</a>
