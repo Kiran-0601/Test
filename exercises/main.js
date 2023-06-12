@@ -33,6 +33,13 @@
 
     });
 
+    $('#submit').click(function() {
+      alert("Button clicked");
+    });
+    $('#submitButton').click(function() {
+      alert("Button clicked");
+    });    
+
     // Disable the submit button until the visitor has clicked a check box.
 
     $('#myCheckbox').click(function() {
@@ -177,5 +184,3 @@
       $('#settext').text(text);
     });
   });
- 
- 
