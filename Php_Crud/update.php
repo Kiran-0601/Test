@@ -14,7 +14,7 @@ require 'db.php';
     $mobile = $_POST['mono'];
     $gender = $_POST['gender']; 
     $sql = "UPDATE `employee` SET `name`='$name',`email`='$email',`website`='$website',`mobile`='$mobile',`gender`='$gender' WHERE `id`='$user_id'"; 
-    $result = $conn->query($sql); 
+    $result = $conn->query($sql);
     if ($result == TRUE) {
       echo "Record updated successfully.";
     }else{

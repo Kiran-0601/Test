@@ -1,6 +1,10 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.0/additional-methods.js"></script>
+   
   </head>
   <title>
     Registration Form
@@ -80,27 +84,29 @@
     }
   }
 ?>
-<form action="<?php $_SERVER["PHP_SELF"];?>" method="post" enctype="multipart/form-data">
+<div id="clock"></div>
+
+<form id="myForm" action="<?php $_SERVER["PHP_SELF"];?>" method="post" enctype="multipart/form-data">
 <div class="container">
 <center><h1>User Registration Form</h1></center>
-  <label>Name:</label><input type="text" name="name" placeholder="Enter Your Name">
+  <label>Name:</label><input type="text" id="name" name="name" placeholder="Enter Your Name">
   <span class="error"><?php echo $nameErr;?></span>
   <br><br>
-  E-mail: <input type="text" name="email" placeholder="Enter E-mail ID">
+  E-mail: <input type="text" id="email" name="email" placeholder="Enter Your Email">
   <span class="error"><?php echo $emailErr;?></span>
   <br><br>
-  Website: <input type="text" name="website" placeholder="Enter Web Url">
+  Website: <input type="text" id="website" name="website" placeholder="Enter Website">
   <span class="error"><?php echo $websiteerr;?></span>
   <br><br>
   Mobile No :
-  <input type="text" name="mono" placeholder="Enter Mobile No"/>
+  <input type="text" name="mono" id="mono" placeholder="Enter Mobile Number" />
   <span class="error"><?php echo $monoerr;?></span><br><br>
   Gender:
   <input type="radio" name="gender" value="female">Female
   <input type="radio" name="gender" value="male">Male
   <input type="radio" name="gender" value="other">Other  
-  <span class="error"><?php echo $gendererr;?></span>
-  <br><br>  
+  <!-- <span class="error"></span> -->
+  <br><br>
   <!-- Hobbies :
   <input type="checkbox" name="playing" value="Playing"/>Playing
   <input type="checkbox" name="reading" value="Reading"/>Reading
@@ -113,7 +119,7 @@
   <span class="error"><?php echo $filerror;?></span> 
   <input type="submit" value="SUBMIT" name="submit" class="registerbtn">
 </div>
-
+<div id="txt">Current Time Is </div>
 <h2>All Users</h2>
 <table id="customers">
   <thead>
@@ -142,13 +148,12 @@
     <td><?php echo $row['mobile']; ?></td>
     <td><?php echo $row['gender']; ?></td>
     <td><a href="update.php?id=<?php echo $row['id']; ?>">Edit</a>&nbsp;<a class="btn btn-danger" href="delete.php?id=<?php echo $row['id']; ?>">Delete</a></td>
-    </tr>                      
-    <?php    
+    </tr>
+    <?php
     }
-    }?>                
+    }?>
   </tbody>
 </table>
-
 </form>
 
 <?php
@@ -191,12 +196,11 @@ if ($uploadOk == 0) {
 else {
   if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
     echo "The file ". htmlspecialchars( basename( $_FILES["fileToUpload"]["name"])). " has been uploaded.";
-  } 
+  }
   else {
     echo "Sorry, there was an error uploading your file.";
   }
 }
 ?>
-
 </body>
 </html> 
