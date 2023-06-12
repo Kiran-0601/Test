@@ -184,4 +184,135 @@
       var text = $(this).val();
       $('#settext').text(text);
     });
+
+    // 23. How to detect a textbox's content has changed using jQuery?
+    $(document).ready(function() {
+      $("#txtchang").on("input", function() {
+        $("#changetxtset").text("Text Changed");
+      });
+    });
+
+    // 24. Remove a specific value from an array using jQuery.
+
+    $('#removeButton').click(function() {
+      var arr = ["jQuery", "JavaScript", "HTML", "Ajax", "Css"];
+      var itemtoRemove = $('#myInput').val();
+      console.log(itemtoRemove);
+      arr.splice($.inArray(itemtoRemove, arr), 1);
+      $("#newarray").text(arr);
+      // console.log(arr);
+    });
+
+    // 26. Change button text using jQuery.
+    $("#changeButton").click(function() {
+      newtext = $("#setbtntext").val();
+      $("#submittext").text(newtext); // Change the button text
+    });
+
+    // 27. Add options to a drop-down list using jQuery.
+    $("#addButton").click(function() {
+      var optionText = $("#myselect").val();
+      var optionValue = $("#myselectval").val();
+      
+      var newOption = $("<option>").text(optionText).val(optionValue);
+      $("#mySelected").append(newOption);
+      $("#myselect").val(""); // Clear the input field
+      $("#myselectval").val(""); // Clear the value field
+    });
+
+    //28. Set background-image using jQuery CSS property.
+
+    //29. Delete all table rows except first one using jQuery.
+    $("#deleteRows").click(function() {
+      $("#rowcol tr:not(:first)").remove();
+    });
+
+    // 30. How to get the selected value and currently selected text of a dropdown box using jQuery?
+    $("#getselValue").click(function() {
+      var selectedValue = $("#mySelected").val();
+      var selectedText = $("#mySelected").find(":selected").text();
+
+      $("#selvalue").text(selectedValue + " " + selectedText);
+    });
+
+    // 31. Disable a link using jQuery
+    $("#removelink").click(function() {
+      $("#clickme").removeAttr("href");
+    });
+
+    // 32. Change a CSS class using jQuery && Add a CSS class using jQuery
+    $('#button1').click(function(){
+      $('#pid').removeClass('center').addClass('large');       
+    });
+
+    // 33.Count child elements using jQuery
+    $("#countButton").click(function() {
+      var count = $("#countchild").children().length;
+      alert("Number of child elements:" + count);
+    });
+
+    // 34. Restrict "number"-only input for textboxes including decimal points.
+
+    $(".numericInput").on("input", function() {
+      var value = $(this).val();
+      var filteredValue = value.replace(/[^0-9.]/g, '');
+      $(this).val(filteredValue);
+    });
+
+    // 35. Remove a specific table row using jQuery
+
+    $('#removebButton').click(function(){
+      $("#rowcol tbody tr#row3").remove();
+    });
+
+    // 36. Set value in input text using jQuery.
+
+    $("#settextused").val("Hello kiran");
+   
+    // 37. Set a value in a span using jQuery.
+    $("#setValueButton").click(function() {
+      $("#mySpan").text("Welcome to in jquery");
+    });
+    
+    // 38.Find the class of the clicked element
+
+    $("div").click(function() {
+      var colorClass = this.className;
+      alert("My Class name is" + colorClass);
+    });
+    
+    // 39. Set href attribute at runtime using jquery.
+
+    $("#setHrefButton").click(function() {
+      var newHref = "https://www.google.com/";
+      $("#myLink").attr("href", newHref);
+    });
+
+    // 40. Remove disabled attribute using jQuery.
+    $("#removeDisabledButton").click(function() {
+      $("#removedis").removeAttr("disabled");
+    });
+
+    // 41. Find the total width of an element (including width, padding, and border) in jQuery
+    console.log("Width + padding + borders : " + $("#myText").outerWidth());
+
+    // 42. Change options of select using jQuery.
+
+    $("#changeOptionsButton").click(function() {
+      // Remove existing options
+      $("#mySelect").empty();
+
+      // Add new options
+      $("#mySelect").append('<option value="hello">Hello</option>');
+    });
+
+    // 43. Access HTML form data using jQuery
+    $("#submitFormButton").click(function() {
+      $('#gettextshow').text($('#removedis').val());
+    });
+
+    //44. Add attribute using jQuery
+    $("#add-attr").click(function () {
+      $("#addAttr").attr("placeholder", "Plz Enter Value");
+  });
   });

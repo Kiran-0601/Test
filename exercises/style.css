@@ -75,3 +75,28 @@ height: 60px;
   color: red;
   font-size: 20px;
 }
+.txt-button{
+  width: 30%;
+  height: 5%;
+  font-size: 20px;
+  padding: 5px;
+}
+.normal-text{
+  width: 20%;
+  font-size: 17px;
+  padding: 2px;
+}
+p.center {
+  text-align: center;
+  color: red;
+}
+
+p.large {
+  font-size: 200%;
+}
+.abc {
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-left: 20px;
+  width: 80%;
+}

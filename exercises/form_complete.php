@@ -125,7 +125,7 @@
       <td>Vadodara</td>
       <td>2345</td>
     </tr>
-    <tr>
+    <tr id="row3">
       <td>Mahek</td>
       <td>Vadodara</td>
       <td>2345</td>
@@ -136,5 +136,102 @@
   <h3>23. How to get textarea text using jQuery.</h3>
   <textarea id="gettextarea"></textarea>
   <p id="settext"></p>
+
+  <h3>24. How to detect a textbox's content has changed using jQuery?</h3>
+  <input type="text" id="txtchang" class="txt-button" placeholder="Type something...">
+  <p id="changetxtset"></p>
+
+  <h3>25. Remove a specific value from an array using jQuery.</h3>
+  <p>Your array is "jQuery, JavaScript, HTML, Ajax, Css" </p>
+  <input type="text" class="txt-button" id="myInput" placeholder="Enter a word which want to remove from above..">
+  <button id="removeButton">Remove</button>
+  <p id="newarray"></p>
+
+  <h3>26. Change button text using jQuery.</h3>
+  <button id="changeButton" class="button">Click me</button>
+  <input type="text" class="txt-button" placeholder="Plz type here button name" id="setbtntext">
+  <button id="submittext" class="button">Type in textbox</button>
+
+  <h3>27. Add options to a drop-down list using jQuery.</h3>
+  <input type="text" id="myselect" placeholder="Option Text" class="normal-text">
+  <input type="text" id="myselectval" placeholder="Option Value" class="normal-text">
+  <button id="addButton" class="button">Add Option</button>
+  
+  <select id="mySelected">
+    <option value="1">Option 1</option>
+    <option value="2">Option 2</option>
+  </select>
+
+  <h3>28. Set background-image using jQuery CSS property.</h3>
+
+  <h3>29. Delete all table rows except first one using jQuery.</h3>
+  <p>=> When you click below button all rows deleted from table which is given in point 22.</p>
+  <button id="deleteRows" class="button">Delete Rows</button>
+
+  <h3>30. How to get the selected value and currently selected text of a dropdown box using jQuery?</h3>
+  <button id="getselValue">Get Selected Value and Text</button>
+  <p id="selvalue">plz select value from point 27 then will able to show current value and text.</p>
+
+  <h3>31. Disable a link using jQuery</h3>
+  <a href="https://www.google.com/" id="clickme">Click here</a>
+  <button id="removelink" class="button">Remove Link</button>
+
+  <h3>32. Change a CSS class using jQuery & Add a CSS class using jQuery</h3>
+  <p id="pid"  class="center">Hello World !!!</p>
+  <input id="button1" type="button" class="button" value="Click to change the Class" />
+
+  <h3>33.Count child elements using jQuery</h3>
+  <div id="countchild">
+    <p>Red</p>
+    <p>White</p>
+    <p>Green</p>
+    <p>Black</p>
+    <p>Blue</p>
+    <p>Orange</p>
+  </div>
+  <button id="countButton">Count Child Elements</button>
+
+  <h3>34. Restrict "number"-only input for textboxes including decimal points.</h3>
+  <input type="text" class="numericInput" placeholder="Numeric input"/>
+
+  <h3>35. Remove a specific table row using jQuery</h3>
+  <p>Remove Specifc row from table of point 22</p>
+  <button id="removebButton">Remove Text</button>
+
+  <h3>36. Set value in input text using jQuery.</h3>
+  <input type="text" id="settextused">
+
+  <h3>37. Set a value in a span using jQuery.</h3>
+  Hello World !! <span id="mySpan"></span>
+  <button id="setValueButton">Set Value</button>
+  
+  <h3>38. Find the class of the clicked element</h3>
+  <div class="button">Click me To know my class name</div>
+
+  <h3>39. Set href attribute at runtime using jquery.</h3>
+  <a id="myLink" href="#">Click me</a>
+  <button id="setHrefButton" class="button">Set Href Link</button>
+
+  <h3>40. Remove disabled attribute using jQuery.</h3>
+  <input type="text" id="removedis" disabled>
+  <button id="removeDisabledButton">Remove Disabled</button>
+
+  <h3>41.Find the total width of an element (including width, padding, and border) in jQuery</h3>
+  <p id="myText" class="abc">Hello World welcome to jquery !!</p>
+
+  <h3>42. Change options of select using jQuery.</h3>
+
+  <select id="mySelect">
+    <option value="default">Default Option</option>
+  </select>
+  <button id="changeOptionsButton" class="button">Change Options</button>
+
+  <h3>43. Access HTML form data using jQuery</h3>
+  <p id="gettextshow"></p>
+  <button type="button" id="submitFormButton" class="button">Submit</button>
+
+  <h3>44. Add attribute using jQuery</h3>
+  <input type="text" id="addAttr">
+  <button id="add-attr" class="button">Add Placeholder Attribute</button>
 </body>
 </html>
