@@ -36,9 +36,7 @@
     $('#submit').click(function() {
       alert("Button clicked");
     });
-    $('#submitButton').click(function() {
-      alert("Button clicked");
-    });    
+      
 
     // Disable the submit button until the visitor has clicked a check box.
 
@@ -46,6 +44,9 @@
       if ($(this).is(':checked')) {
         $('#submitButton').prop('disabled', false);
         $('#submitButton').css('backgroundColor', '#ff0066');
+        $("#submitButton").click(function() {
+          alert("Button clicked!");
+        });
 
       } else {
         $('#submitButton').prop('disabled', true);
