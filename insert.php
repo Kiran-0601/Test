@@ -36,4 +36,3 @@
 <input type="button" class="btn btn-danger" onclick="window.location.href='add.php';" value="Back" name="back">
 </body>
 </html>
-
