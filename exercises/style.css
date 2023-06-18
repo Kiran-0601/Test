@@ -1,0 +1,102 @@
+#scrollToTopBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: red;
+  border-radius: 80px;
+  color: #fff;
+  cursor: pointer;
+  display: none;
+}
+.bold-first {
+  font-size: 20px;
+  font-weight: bold;
+}
+.bold-first-word {
+  font-weight: bold;
+  color: red;
+  font-size: 20px;
+}
+
+table{
+  width: 50%;
+  border-collapse: collapse;
+}
+.zebra{
+  background-color:  #ff0066;
+}
+.parent{
+background-color:  #ff0066;
+font-size: 20px;
+padding: 10px;
+width: 60px;
+height: 60px;
+}
+.child{
+background-color:  #ff0066;
+font-size: 20px;
+padding: 10px;
+width: 60px;
+height: 60px;
+}
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+.button-chk{
+  background-color: lightpink;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 10px;
+}
+.button-sub {
+  background-color: #ff0066;
+  color: white;
+  border: none;
+  padding: 10px 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.blink{
+  color: red;
+  font-size: 20px;
+}
+.txt-button{
+  width: 30%;
+  height: 5%;
+  font-size: 20px;
+  padding: 5px;
+}
+.normal-text{
+  width: 20%;
+  font-size: 17px;
+  padding: 2px;
+}
+p.center {
+  text-align: center;
+  color: red;
+}
+
+p.large {
+  font-size: 200%;
+}
+.abc {
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-left: 20px;
+  width: 80%;
+}
