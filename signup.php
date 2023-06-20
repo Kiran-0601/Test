@@ -24,19 +24,23 @@
     $email = $_POST['email'];
     $country = $_POST['country'];
     $mobile =  $_POST['mobile'];
-    $dob =  $_POST['dob'];
+    $dob =  $_POST['dob'];    
     $pwd =  $_POST['pwd'];
+    $hashedPassword = md5($pwd);
     $address =  $_POST['address'];
     $gender = $_POST['gender'];
     
-    $sql = "INSERT INTO `auth`(`fname`, `lname`, `email`, `country`, `mobile`, `dob`, `password`, `address`, `gender`) VALUES ('$fname','$lname','$email','$country','$mobile','$dob','$pwd','$address','$gender')";
+    $sql = "INSERT INTO `auth`(`fname`, `lname`, `email`, `country`, `mobile`, `dob`, `password`, `address`, `gender`) VALUES ('$fname','$lname','$email','$country','$mobile','$dob','$hashedPassword','$address','$gender')";
     if ($conn->query($sql) === TRUE) {
       $mail->setFrom('ramchandanik872@gmail.com', 'Concetto Labs');
       $mail->addAddress($email, $fname . $lname);
       $mail->Subject = 'Welcome Mail';
       $mail->Body = 'Hello, ' . $fname . ' ' . $lname . ' Welcome To Concetto Labs..';
       if ($mail->send()) {
-        echo "<h5>Registration Successfully !! Plz check Your Email..</h5>";
+        echo "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
+        Registration Successfully !! Please Check Your Mail
+        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+      </div>";
       }
     }else {
     echo "Error: " . $sql . "<br>" . $conn->error;
@@ -64,12 +68,12 @@
       <div class="col-sm-6 mb-3">        
         <label>Select Country</label>
         <select id="country" name="country" class="form-select">        
-          <option selected>Select an option</option>
+          <option value="0">Select an option</option>
           <option value="India">India</option>
           <option value="New york">New york</option>
           <option value="London">London</option>
         </select>
-      </div>      
+      </div>
     </div>
     <div class="row">
       <div class="col-sm-6 mb-3">
@@ -108,14 +112,18 @@
         </div>
       </div>
     </div>
+    <div class="form-check" id="agreeerror">
+      <input class="form-check-input" type="checkbox" id="agree" name="agree">
+      <label class="form-check-label" for="checkbox2">
+        I agree all terms & Conditions
+      </label>
+    </div>
     <div class="mb-3">
       <input type="submit" value="Register" class="register" name="submit">
       <p style="color: #800000;">Already registered ??   <a href="signin.php">Please Login</a></p>
     </div>
-   
   </form> 
 </div>
- 
 </body>
 </html>
 

@@ -1,5 +1,4 @@
 <?php
-// Start the session
 session_start();
 
 $_SESSION['logmsg'] = "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>

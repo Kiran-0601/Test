@@ -4,7 +4,9 @@ $email = $_SESSION['email'];
 $id =  $_SESSION['id'];
 
 if (!isset($_SESSION['email'])) {
-  $_SESSION['error'] = "You are not logged in. Please login to access the dashboard.";
+  $_SESSION['error'] = "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
+  You are not logged in. Please login to access the dashboard. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+  </div>";
   header("Location: signin.php");   // If user not login then Redirect to the login page
   exit();
 }
@@ -30,10 +32,10 @@ if (!isset($_SESSION['email'])) {
       <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
         <ul class="nav nav-pills" id="menu">
           <li><a href="dashboard.php" class="nav-link px-0 align-middle">Dashboard Menu</a></li>
-          <li><a href="edit.php?id=<?php echo $id; ?>" class="nav-link px-0 align-middle">Edit Profile</a></li>
-          <li><a href="change_password.php?id=<?php echo $id; ?>" class="nav-link px-0 align-middle">Change Password</a></li>
+          <li><a href="edit.php" class="nav-link px-0 align-middle">Edit Profile</a></li>
+          <li><a href="change_password.php" class="nav-link px-0 align-middle">Change Password</a></li>
           <li><a href="logout.php" class="nav-link px-0 align-middle">Logout</a></li>
-        </ul>                
+        </ul>
       </div>
     </div>
     <div class="col py-3">
@@ -52,15 +54,17 @@ if (!isset($_SESSION['email'])) {
         $sql = "UPDATE `auth` SET `fname`='$fname',`lname`='$lname',`country`='$country',`mobile`='$mobile',`dob`='$dob',`address`='$address',`gender`='$gender' WHERE `id`='$id'"; 
         $result = $conn->query($sql);
         if ($result == TRUE) {
-          header("Location: edit.php?id=" . $id);
-          $msg =  "Record updated successfully.";
+        
+          echo "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
+          Record Updated Successfully !!! &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          </div>";
         }else{
           echo "Error:" . $sql . "<br>" . $conn->error;
         }
       }
-      if (isset($_GET['id'])) {
+      if (isset($_SESSION['email'])) {
     
-      $sql = "SELECT * FROM `auth` WHERE `id`='$id'";
+      $sql = "SELECT * FROM `auth` WHERE `email`='$email'";
       $result = $conn->query($sql); 
       if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -74,10 +78,11 @@ if (!isset($_SESSION['email'])) {
           $address = $row['address'];
           $gender = $row['gender'];
         } ?>
+      <?php echo $msg; ?>
       <div class="wrapper">
         <form id="editForm" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right">
           <h2 class="text-center">Edit Profile</h2>
-          <div class="row"><?php echo $msg; ?>
+          <div class="row">
             <div class="col-sm-6 mb-3">
               <label>First Name</label>
               <input type="text" name="fname" id="fname" class="input-field" value="<?php echo $fname; ?>">
@@ -93,14 +98,14 @@ if (!isset($_SESSION['email'])) {
               <input type="text" name="email" id="email" value="<?php echo $email; ?>" class="input-field" disabled>
               <span class="error">Email Can not Change</span>
             </div>
-            <div class="col-sm-6 mb-3">            
+            <div class="col-sm-6 mb-3">
               <label>Select Country</label>
-              <select id="country" name="country" class="form-select">        
+              <select id="country" name="country" class="form-select">
                 <option selected>Select an option</option>
                 <option value="India" <?php if ($country == 'India') echo 'selected'; ?>>India</option>
                 <option value="New york" <?php if ($country == 'New york') echo 'selected'; ?>>New york</option>
                 <option value="London" <?php if ($country == 'London') echo 'selected'; ?>>London</option>
-              </select>            
+              </select>
             </div>
           </div>
           <div class="row">
@@ -121,8 +126,8 @@ if (!isset($_SESSION['email'])) {
             <div class="col-sm-4 mb-4">
               <label>Select Gender</label>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="gender" id="male" value="Male">
-                <label class="form-check-label" for="male"  <?php if($gender == 'Male'){ echo "checked";} ?>>Male</label>
+                <input class="form-check-input" type="radio" name="gender" id="male" value="Male" <?php if($gender == 'Male'){ echo "checked";} ?>>
+                <label class="form-check-label" for="male">Male</label>
               </div>
               <div class="form-check" id="gendererror">
                 <input class="form-check-input" type="radio" name="gender" id="female" value="Female"  <?php if($gender == 'Female'){ echo "checked";} ?>>
@@ -140,7 +145,7 @@ if (!isset($_SESSION['email'])) {
       else{
         echo "Data missing";
       }
-    }?> 
+      }?>
     </div>
   </div>
 </div>

@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+body{
+    background: #fff;
+    min-height: 100vh;
+    color: #800000;
+}
+.wrapper{
+    max-width: 440px;
+    background-color: #fff;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    margin: 90px auto;
+    box-shadow:  0 8px 20px 0px rgba(31, 31, 31, 0.1), /* Top shadow */
+    0 -8px 20px 0px rgba(31, 31, 31, 0.1), /* Bottom shadow */
+    8px 0 20px 0px rgba(31, 31, 31, 0.1), /* Right shadow */
+    -8px 0 20px 0px rgba(31, 31, 31, 0.1);
+    overflow: hidden;
+}
+.wrapper h2{
+    font-weight: 700;
+    font-size: 30px;
+    padding: 5px 0 0;
+    margin-bottom: 34px;
+    pointer-events: none;
+}
+.wrapper .form-right{
+    padding: 20px 40px;
+    position: relative;
+    width: 100%;
+    background-color: #fff;
+}
+.wrapper .form-right h2{
+    color: #800000;
+    align-items: center;
+}
+.wrapper .form-right label{
+    font-weight: 600;
+    font-size: 15px;
+    color: #000;
+    display: block;
+    margin-bottom: 8px;
+}
+.wrapper .form-right .input-field{
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #e5e5e5;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    outline: none;
+    color: #000;
+}
+.wrapper .form-right .input-field:focus{
+    border: 1px solid #31a031;
+}
+.wrapper .register{
+    padding: 12px;
+    background: #800000;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: none;
+    margin: 6px 0 20px 0px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    width: 20%;
+}
+a.nav-link.px-0.align-middle {
+    font-size: 18px;
+}
+@media (max-width: 860.5px) {
+    .wrapper{
+        margin: 50px 5px;
+    }
+}
+@media (max-width: 767.5px){
+    .wrapper{
+        flex-direction: column;
+        margin: 30px 20px;
+    }
+    .wrapper .form-left{
+        border-bottom-left-radius: 0px;
+    }    
+}
+@media (max-width: 575px) {
+    .wrapper{
+        margin: 30px 15px;
+    }
+    .wrapper .form-left{
+        padding: 25px;
+    }
+    .wrapper .form-right{
+        padding: 25px;
+    }
+}
+span.error{
+    font-weight: 500;
+    color: #ff0000;
+    font-size: 15px;
+}
+.error{
+    font-weight: 500;
+    color: #ff0000;
+    font-size: 15px;
+}
+.navbar-nav{
+    padding-left: 85%;
+    color: #fff;
+    font-size: 20px;
+}
+
+a#navbarDarkDropdownMenuLink {
+    color: #fff;
+    font-weight: 500;
+}
+
+a.dropdown-item {
+    color: #fff;
+}
+
+.bg-dark {
+    --bs-bg-opacity: 1;
+    background-color: #000;
+    font-size: 22px;
+}
+.nav-pills .nav-link {
+    background: 0 0;
+    border: 0;
+    border-radius: var(--bs-nav-pills-border-radius);
+    /* color: #fff; */
+    color: #fff;
+    font-size: 20px;
+}
+select#country{
+    color: #000;
+}
+nav.navbar.navbar-expand-lg.navbar-dark{
+    background-color: #800000;
+    color: #fff;
+}
+
+.navbar-dark .navbar-nav .nav-link{
+    font-size: 20px;
+    color: #fff;
+}
+.navbar-nav {
+    padding-left: 20px;
+}
+.page-item.active .page-link {
+    background-color: #800000;
+    border-color: #800000;
+}
+.page-link{
+    color: #800000;
+}
+.custom-row-padding {
+    padding-left: 8%;
+}
+.fas.fa-eye {
+    margin-right: 3px;
+    font-size: 17px;
+}
+.btn-primary{
+    background-color: #800000;
+    border-color: #800000;
+    margin-right: 5px;
+}
+.btn-primary:hover {
+    background-color: #800000; /* Set the background color on hover */
+    border-color: #800000; /* Set the border color on hover */
+}
+.mt-5 {
+    margin-top: 4rem !important;
+}
+
+
+
+

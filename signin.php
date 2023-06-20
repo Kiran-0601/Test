@@ -4,6 +4,12 @@ session_start();
     echo $_SESSION['error'];
     unset($_SESSION['error']); // Clear the error message
   }
+  if(isset($_SESSION['logmsg'])) {
+    echo $_SESSION['logmsg'];
+    // Destroy all session data
+    session_destroy();
+    unset($_SESSION['msg']);
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +25,7 @@ session_start();
   <script src="main.js"></script>
   <style>
   .wrapper{
-    max-width: 550px;
+    max-width: 450px;
   }
   </style>
   <title>SignIn Form</title>
@@ -32,6 +38,7 @@ session_start();
    
     $email = $_POST['email'];
     $pwd =  $_POST['pwd'];
+    $hashedPassword = md5($pwd);
     $sql = "SELECT * FROM auth WHERE email LIKE '$email'";
     $result = $conn->query($sql);
     // Check user exist or not.
@@ -40,18 +47,25 @@ session_start();
       $storedPassword = $row["password"];
       $id = $row["id"];
       // Verify the password
-      if ($pwd == $storedPassword) {
+      if ($hashedPassword == $storedPassword) {
         // Authentication successful, redirect to dashboard or homepage
         $_SESSION['email'] = $email;
         $_SESSION['id'] = $id;
+        $_SESSION['msg'] = "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
+        Login Successfully !!! &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
         header("Location: dashboard.php");
       } else {
         // Invalid password, show an error message
-        echo "Invalid Your password.";
+        echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
+        Invalid Your password. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>";
       }
     } else {
-      // Invalid username, show an error message
-      echo "Invalid Your Username";
+      // Invalid Email, show an error message
+      echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
+      Invalid Your Email. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+      </div>";
     }
     // Close the database connection
     $conn->close();
@@ -70,8 +84,8 @@ session_start();
       <input type="password" name="pwd" class="input-field" id="pwd">
     </div>
     <div class="form-field">
-      <input type="submit" value="Login" class="register" name="submit">
-      <p style="color: #800000;">New Register   <a href="signup.php">Please SignUp</a></p>
+      <input type="submit" value="Login" class="login" name="submit">
+      <p style="color: #800000;">New Register ?? <a href="signup.php">Please SignUp</a></p>
     </div>
   </form>
 </div>

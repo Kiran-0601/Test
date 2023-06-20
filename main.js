@@ -1,5 +1,12 @@
 $(document).ready(function() {
 
+    var alertMessage = document.getElementById('alertMessage');
+
+    // Hide the alert after 2 seconds
+    setTimeout(function() {
+        alertMessage.classList.remove('show');
+    }, 2000);
+
     $.validator.addMethod("checkEmailExists", function(value, element) {
         var exists = false;
         $.ajax({
@@ -19,6 +26,10 @@ $(document).ready(function() {
         return this.optional( element ) || /^[a-z]+$/i.test( value );
     }, "Only Alphabets and Whitespaces are allowed" );
 
+    $.validator.addMethod( "forselect", function( value, element, param ) {
+        return value != '0';
+    }, "plz selct country" );
+
     $.validator.addMethod("password", function(value, element) {
         return /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/.test(value);
     }, "Password must be at least 8 characters long and contain at least one special character");
@@ -34,7 +45,7 @@ $(document).ready(function() {
                 lettersonly: true,
             },
             country: {
-                required: true,
+                forselect: true,
             },
             mobile: {
                 required: true,
@@ -59,7 +70,11 @@ $(document).ready(function() {
             },
             gender: {
                 required: true,
-            },          
+            },
+            agree: {
+                required: true,
+            }
+
         },
         messages: {
             fname: {
@@ -67,11 +82,8 @@ $(document).ready(function() {
             },
             lname: {
                 required: "Enter Your Last Name",
-            },
-            country: {
-                required: "Select Country",
-            },
-             mobile: {
+            },           
+            mobile: {
                 required: "Enter Your Mobile Number",
                 digits: "Please enter only digits",
                 maxlength : "Mobile number Should be 10 Digits..",
@@ -92,13 +104,19 @@ $(document).ready(function() {
             },
             gender: {
                 required: 'Select your gender',
-            },         
+            },
+            agree: {
+                required: 'Agree all conditions',
+            }
         },
         errorClass: 'error',        
         errorElement: 'span',
         errorPlacement: function(error, element) {
             if (element.is(':radio')) {
                 error.insertAfter('#gendererror');
+            }
+            else if (element.is(':checkbox')) {
+                error.insertAfter('#agreeerror');
             }
             else {
                 error.insertAfter(element); // Default error placement for other fields
