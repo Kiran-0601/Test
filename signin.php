@@ -84,7 +84,7 @@ session_start();
       <input type="password" name="pwd" class="input-field" id="pwd">
     </div>
     <div class="form-field">
-      <input type="submit" value="Login" class="register" name="submit">
+      <input type="submit" value="Login" class="login" name="submit">
       <p style="color: #800000;">New Register ?? <a href="signup.php">Please SignUp</a></p>
       <p style="color: #800000;">Forgot Password ?? <a href="forgot-password.php">Click here</a></p>
     </div>

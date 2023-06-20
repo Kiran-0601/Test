@@ -254,5 +254,30 @@ $(document).ready(function() {
 
     });
 
+    $('#resetpassword').validate({
+        rules: {
+            npwd: {
+               required: true,
+               password: true,
+            },
+            cpwd: {
+                required: true,
+                equalTo: "#npwd",
+            },
+        },
+        messages: {
+            npwd:{
+                required: "Enter New password",
+            },
+            cpwd: {
+                required: "Enter Confirm password",
+                equalTo: "New Password and confirm password should be same",
+            },
+        },
+      errorClass: 'error',
+      errorElement: 'span',
+
+    });
+
     
 });
