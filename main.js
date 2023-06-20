@@ -235,5 +235,24 @@ $(document).ready(function() {
             }
         },       
     });
+
+    $('#forgotpassword').validate({
+        rules: {
+            email: {
+               required: true,
+               email: true,
+            },
+        },
+        messages: {
+            email:{
+                required: "Enter Your Email",
+                email: "Enter Valid Email",
+            },
+        },
+      errorClass: 'error',
+      errorElement: 'span',
+
+    });
+
     
 });
