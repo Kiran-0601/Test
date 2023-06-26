@@ -54,7 +54,9 @@ session_start();
       $storedPassword = $row["password"];
       $id = $row["id"];
       $active = $row["active"];
+      $expire = $row["expire"];
       $verify = $row["verified"];
+      $token = $row["token"];
 
       // Verify the password
       if ($hashedPassword == $storedPassword) {
@@ -69,9 +71,23 @@ session_start();
         }
         else{
           if($verify == 'No'){
-            echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
-            Your account has been not Verified. Plz Go to email to verify your account. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-            </div>";
+            $currentDateTime = date("Y-m-d H:i:s");
+            $addedTime = date('Y-m-d H:i:s', strtotime($expire . ' +20 minutes'));
+            // echo $addedTime;
+            // check verification link expire or not.
+            if (strtotime($addedTime) < strtotime($currentDateTime)) {
+              $_SESSION['resendmsg'] = "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
+              Sorry !! Your verification is pending. Plz click Resend verification mail&nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+              </div>";
+              $_SESSION['token'] = $token;
+              header("Location: signin.php");
+              exit;
+            }
+            else{
+              echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
+              Your verification is pending. Plz Go to email to verify your account. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+              </div>";
+            }
           }
           else{
             echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
@@ -114,7 +130,7 @@ session_start();
       <p style="color: #800000;">New Register ?? <a href="signup.php">Click here</a></p>
       <p style="color: #800000;">Forgot Password ?? <a href="forgot-password.php">Click here</a></p>
       <?php if (isset($_SESSION['resendmsg'])): ?>
-      <p style="color: #800000;">Verification link 
+      <p style="color: #800000;">Verification Pending ??
         <a href="reverify.php?token=<?php   $token = $_SESSION['token'];  echo $token; ?>">Resend verification mail</a>
       </p>
       <?php unset($_SESSION['resendmsg']); endif; ?>

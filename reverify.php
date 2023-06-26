@@ -38,6 +38,11 @@ session_start();
         echo "Error updating record: " . $conn->error;
       }
     }
+    else{
+      echo "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
+      Your account not registered Plz register yourself <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+      </div>";
+    }
   }
 ?>
   
