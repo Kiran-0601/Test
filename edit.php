@@ -28,7 +28,7 @@ if (!isset($_SESSION['email'])) {
 <body>
 <div class="container-fluid">
   <div class="row flex-nowrap">
-    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+    <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0">
       <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
         <ul class="nav nav-pills" id="menu">
           <li><a href="dashboard.php" class="nav-link px-0 align-middle">Dashboard Menu</a></li>
@@ -41,8 +41,9 @@ if (!isset($_SESSION['email'])) {
     <div class="col py-3">
       <?php
       require 'db.php';
-      if (isset($_POST['submit'])){
       
+      if (isset($_POST['submit'])){
+                
         $fname = $_POST['fname'];
         $lname = $_POST['lname'];
         $country = $_POST['country'];
@@ -50,11 +51,39 @@ if (!isset($_SESSION['email'])) {
         $dob =  $_POST['dob'];
         $address =  $_POST['address'];
         $gender = $_POST['gender'];
-
-        $sql = "UPDATE `auth` SET `fname`='$fname',`lname`='$lname',`country`='$country',`mobile`='$mobile',`dob`='$dob',`address`='$address',`gender`='$gender' WHERE `id`='$id'"; 
+        if(isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] !== UPLOAD_ERR_NO_FILE) {
+          $image = $_FILES["fileToUpload"]["name"];
+          $target_dir = "/var/www/html/php/Authentication/uploads/";
+          $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+          move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+          
+          $currentFilename = '';
+          $sql = "SELECT image FROM auth WHERE id = '$id'";
+          $result = $conn->query($sql);
+          if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $currentFilename = $row['image'];
+          }
+          if (!empty($currentFilename)) {
+            $filepath = "uploads/" . $currentFilename; // Replace with the actual path to the folder where the file is stored
+            if (file_exists($filepath)) {
+              unlink($filepath);
+            }
+          }
+        }
+        else{
+          // $currentFilename = '';
+          $sql = "SELECT image FROM auth WHERE id = '$id'";
+          $result = $conn->query($sql);
+          if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $image = $row['image'];
+          }
+        }
+       
+        $sql = "UPDATE `auth` SET `fname`='$fname',`lname`='$lname',`country`='$country',`mobile`='$mobile',`dob`='$dob',`address`='$address',`gender`='$gender',`image`='$image'  WHERE `id`='$id'"; 
         $result = $conn->query($sql);
         if ($result == TRUE) {
-        
           echo "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
           Record Updated Successfully !!! &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
           </div>";
@@ -77,10 +106,12 @@ if (!isset($_SESSION['email'])) {
           $dob = $row['dob'];
           $address = $row['address'];
           $gender = $row['gender'];
+          $img =  $row['image'];
+          
         } ?>
       <?php echo $msg; ?>
       <div class="wrapper">
-        <form id="editForm" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right">
+        <form id="editForm" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right" enctype="multipart/form-data">
           <h2 class="text-center">Edit Profile</h2>
           <div class="row">
             <div class="col-sm-6 mb-3">
@@ -135,13 +166,29 @@ if (!isset($_SESSION['email'])) {
               </div>
             </div>
           </div>
+          <div class="row">
+            <div class="col-5">
+              <div class="mb-3">
+                <label>Profile Photo</label>
+                <input type="file" name="fileToUpload" id="fileToUpload">
+              </div>
+              <?php
+              if (!empty($img)) {
+                echo '<img src="/php/Authentication/uploads/' . $img . '" width="80" height="70">';
+              }
+              else{
+                echo '<p>Not Uploaded</p>';
+              }
+              ?>
+            </div>
+          </div>
           <div class="mb-3">
             <input type="submit" value="Update" class="register" name="submit">
           </div>
-        </form>
+        </form>        
       </div>
       <?php
-      } 
+      }
       else{
         echo "Data missing";
       }
@@ -149,5 +196,7 @@ if (!isset($_SESSION['email'])) {
     </div>
   </div>
 </div>
+
+
 </body>
 </html>

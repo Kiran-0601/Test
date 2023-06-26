@@ -30,28 +30,33 @@ if (isset($_POST['submit'])){
   if ($result->num_rows > 0) {
     $email = $_POST['email'];
     $token = bin2hex(random_bytes(32));
-    $sql = "INSERT INTO `password_reset`(`email`, `token`) VALUES ('$email','$token')";
-    if ($conn->query($sql) === TRUE) {
-      // echo "hello";
-      // send email 
-      $mail->isHTML(true);
-      $mail->setFrom('ramchandanik872@gmail.com', 'Concetto Labs');
-      $mail->addAddress($email);
-      $mail->Subject = "Password Reset Mail";
-      $mail->Body = '<h1>Reset Your Password</h1>
-      <p>Please click the following link to reset your password:</p>
-      <a href="http://localhost/php/Authentication/reset-password.php?token=' . $token . '">Reset Password</a>';
-      if ($mail->send()) {
-        echo "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
-        Reset Password Link has been Sent to your E-mail !! &nbsp;&nbsp;&nbsp;&nbsp;<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>";
+    $sql = "SELECT * FROM password_reset WHERE email LIKE '$email'";
+    $result = $conn->query($sql);
+    // Check user have already applied for forgot password or not..
+    if ($result->num_rows <= 0) {
+
+      $currentDateTime = date("Y-m-d H:i:s");
+      $sql = "INSERT INTO `password_reset`(`email`, `token`, `expire`) VALUES ('$email','$token','$currentDateTime')";
+      if ($conn->query($sql) === TRUE) {
+        // send password recovery mail
+        $mail->isHTML(true);
+        $mail->setFrom('ramchandanik872@gmail.com', 'Concetto Labs');
+        $mail->addAddress($email);
+        $mail->Subject = "Password Reset Mail";
+        $mail->Body = '<h1>Reset Your Password</h1>
+        <p>Please click the following link to reset your password:</p>
+        <a href="http://localhost/php/Authentication/reset-password.php?token=' . $token . '">Reset Password</a>';
+        if ($mail->send()) {
+          echo "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
+          Reset Password Link has been Sent to your E-mail !! &nbsp;&nbsp;&nbsp;&nbsp;<button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          </div>";
+        }
       }
-      else {
-        // Invalid username, show an error message
-        echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
-        Invalid Your Email. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>";
-      }
+    }
+    else{
+      echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
+      You have already applied for forgot password Please check your mail.. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+      </div>";
     }
     // Close the database connection
     $conn->close();
@@ -63,7 +68,6 @@ if (isset($_POST['submit'])){
   }
 }
 ?>
-    
 <div class="wrapper">
   <form id="forgotpassword" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right">
     <h2 class="text-center">Forgot Password</h2>
@@ -72,7 +76,7 @@ if (isset($_POST['submit'])){
       <input type="email" name="email" class="input-field" id="email">
     </div>
     <div class="form-field">
-      <input type="submit" value="Login" class="login" name="submit">
+      <input type="submit" value="Submit" class="login" name="submit">
       <p><a href="signin.php" style="color: #800000;">Back To Login</a></p>
     </div>
   </form>

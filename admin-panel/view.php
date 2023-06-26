@@ -63,10 +63,11 @@ if (isset($_GET['id'])) {
       $pwd = $row['password'];
       $address = $row['address'];
       $gender = $row['gender'];
+      $img = $row['image'];
     } ?>
     <?php echo $msg; ?>
     <div class="wrapper">
-      <form id="editForm" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right">
+      <form id="editForm" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right" enctype="multipart/form-data">
         <h2 class="text-center">View Profile</h2>
         <div class="row">
           <div class="col-sm-6 mb-3">
@@ -122,7 +123,21 @@ if (isset($_GET['id'])) {
              }?>
             </p>
           </div>
-        </div><br>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 mb-6">
+            <label>Profile Picture :</label>
+            <?php
+            if (!empty($img)) {
+              echo '<img src="/php/Authentication/uploads/' . $img . '" width="80" height="70">';
+            }
+            else{
+              echo "Not Uploaded";
+            }
+            ?>
+          </div>
+        </div>
+        <br>
         <div class="mb-3">
           <button type="button" onclick="window.location.href='show-users.php';" class="btn btn-primary">Back</button>
         </div>     

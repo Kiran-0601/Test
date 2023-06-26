@@ -65,7 +65,38 @@ if (isset($_POST['submit'])){
   $gender = $_POST['gender'];
   $id = $_POST['id'];
 
-  $sql = "UPDATE `auth` SET `fname`='$fname',`lname`='$lname',`mobile`='$mobile',`dob`='$dob',`address`='$address',`country`='$country',`gender`='$gender' WHERE `id`= '$id'"; 
+  if(isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] !== UPLOAD_ERR_NO_FILE) {
+    $image = $_FILES["fileToUpload"]["name"];
+    $target_dir = "/var/www/html/php/Authentication/uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+    
+    $currentFilename = '';
+    $sql = "SELECT image FROM auth WHERE id = '$id'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $currentFilename = $row['image'];
+    }
+    if (!empty($currentFilename)) {
+      $filepath = dirname(__FILE__) . "/../uploads/" . $currentFilename;
+      if (file_exists($filepath)) {
+        unlink($filepath);
+      }
+    }
+  }
+  else{
+    $currentFilename = '';
+    $sql = "SELECT image FROM auth WHERE id = '$id'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+      $row = $result->fetch_assoc();
+      $currentFilename = $row['image'];
+      $image = $row['image'];
+    }
+  }
+ 
+  $sql = "UPDATE `auth` SET `fname`='$fname',`lname`='$lname',`mobile`='$mobile',`dob`='$dob',`address`='$address',`country`='$country',`gender`='$gender',`image`='$image' WHERE `id`= '$id'"; 
   $result = $conn->query($sql);
   if ($result == TRUE) {
     $_SESSION['msg'] = "<div id='alertMessage' class='alert alert-success message-container mt-5 fade show position-fixed top-0 end-0' role='alert'>
@@ -95,10 +126,11 @@ if (isset($_GET['id'])) {
       $pwd = $row['password'];
       $address = $row['address'];
       $gender = $row['gender'];
+      $img = $row['image'];
     } ?>
     <?php echo $msg; ?>
     <div class="wrapper">
-      <form id="editForm" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right">
+      <form id="editForm" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right" enctype="multipart/form-data">
         <h2 class="text-center">Edit Profile</h2>
         <div class="row">
           <div class="col-sm-6 mb-3">
@@ -159,6 +191,19 @@ if (isset($_GET['id'])) {
             </div>
           </div>                      
         </div>
+        <div class="row">
+          <div class="col-5">
+            <div class="mb-3">
+              <label>Profile Photo</label>
+              <input type="file" name="fileToUpload" id="fileToUpload">
+            </div>
+            <?php
+            if (!empty($img)) {
+              echo '<img src="/php/Authentication/uploads/' . $img . '" width="80" height="70">';
+            }
+            ?>
+          </div>            
+        </div><br>
         <div class="mb-3">
           <input type="submit" value="Update" name="submit" class="btn btn-primary">
           <button type="button" onclick="window.location.href='show-users.php';" class="btn btn-primary">Back</button>

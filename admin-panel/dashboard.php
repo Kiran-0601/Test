@@ -44,7 +44,6 @@ else if(isset($_SESSION['email'])) {
       </div>
     </div>
   </nav>
-
   <div class="container mt-5">
     <div class="row">
       <div class="col-lg-12">

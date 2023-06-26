@@ -2,10 +2,10 @@ $(document).ready(function() {
 
     var alertMessage = document.getElementById('alertMessage');
 
-    // Hide the alert after 2 seconds
+    // Hide the alert after 3 seconds
     setTimeout(function() {
         alertMessage.classList.remove('show');
-    }, 2000);
+    }, 3000);
 
     $.validator.addMethod("checkEmailExists", function(value, element) {
         var exists = false;
@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     $.validator.addMethod( "forselect", function( value, element, param ) {
         return value != '0';
-    }, "plz selct country" );
+    }, "Selct country" );
 
     $.validator.addMethod("password", function(value, element) {
         return /^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/.test(value);
@@ -149,7 +149,6 @@ $(document).ready(function() {
 
     });
 
-    
     $('#changePassword').validate({
         rules: {
             pwd: {
@@ -278,6 +277,4 @@ $(document).ready(function() {
       errorElement: 'span',
 
     });
-
-    
 });

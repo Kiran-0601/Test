@@ -10,6 +10,13 @@ session_start();
     session_destroy();
     unset($_SESSION['msg']);
   }
+  if(isset($_SESSION['verimsg'])) {
+    echo $_SESSION['verimsg'];
+    unset($_SESSION['verimsg']);
+  }
+  if(isset($_SESSION['resendmsg'])) {
+    echo $_SESSION['resendmsg'];
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +32,7 @@ session_start();
   <script src="main.js"></script>
   <style>
   .wrapper{
-    max-width: 450px;
+    max-width: 550px;
   }
   </style>
   <title>SignIn Form</title>
@@ -34,7 +41,7 @@ session_start();
 <?php
   require 'db.php';
 
-  if (isset($_POST['submit'])){
+  if (isset($_POST['login'])){
    
     $email = $_POST['email'];
     $pwd =  $_POST['pwd'];
@@ -46,32 +53,51 @@ session_start();
       $row = $result->fetch_assoc();
       $storedPassword = $row["password"];
       $id = $row["id"];
+      $active = $row["active"];
+      $verify = $row["verified"];
+
       // Verify the password
       if ($hashedPassword == $storedPassword) {
-        // Authentication successful, redirect to dashboard or homepage
-        $_SESSION['email'] = $email;
-        $_SESSION['id'] = $id;
-        $_SESSION['msg'] = "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
-        Login Successfully !!! &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-        </div>";
-        header("Location: dashboard.php");
-      } else {
+        if($active == 1){
+          // Authentication successful, redirect to dashboard or homepage
+          $_SESSION['email'] = $email;
+          $_SESSION['id'] = $id;
+          $_SESSION['msg'] = "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
+          Login Successfully !!! &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+          </div>";
+          header("Location: dashboard.php");
+        }
+        else{
+          if($verify == 'No'){
+            echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
+            Your account has been not Verified. Plz Go to email to verify your account. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>";
+          }
+          else{
+            echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
+            Your account has been disabled Plz Contact to administartor.. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>";
+          }
+        }
+      }
+      else {
         // Invalid password, show an error message
         echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
         Invalid Your password. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
         </div>";
       }
-    } else {
+    } 
+    else {
       // Invalid Email, show an error message
       echo "<div id='alertMessage' class='alert alert-danger message-container fade show position-fixed top-0 end-0' role='alert'>
       Invalid Your Email. &nbsp;&nbsp;  <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
       </div>";
     }
-    // Close the database connection
     $conn->close();
+    // Close the database connection
   }
 ?>
-    
+
 <div class="wrapper">
   <form id="signin" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post" class="form-right">
     <h2 class="text-center">SignIn Form</h2>
@@ -84,11 +110,16 @@ session_start();
       <input type="password" name="pwd" class="input-field" id="pwd">
     </div>
     <div class="form-field">
-      <input type="submit" value="Login" class="login" name="submit">
-      <p style="color: #800000;">New Register ?? <a href="signup.php">Please SignUp</a></p>
+      <button type="submit" value="Login" class="login" name="login">Login</button>
+      <p style="color: #800000;">New Register ?? <a href="signup.php">Click here</a></p>
       <p style="color: #800000;">Forgot Password ?? <a href="forgot-password.php">Click here</a></p>
+      <?php if (isset($_SESSION['resendmsg'])): ?>
+      <p style="color: #800000;">Verification link 
+        <a href="reverify.php?token=<?php   $token = $_SESSION['token'];  echo $token; ?>">Resend verification mail</a>
+      </p>
+      <?php unset($_SESSION['resendmsg']); endif; ?>
     </div>
-  </form>
+  </form> 
 </div>
 </body>
 </html>

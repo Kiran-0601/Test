@@ -18,7 +18,6 @@
   require 'mail.php';
 
   if (isset($_POST['submit'])){
-   
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
     $email = $_POST['email'];
@@ -29,21 +28,28 @@
     $hashedPassword = md5($pwd);
     $address =  $_POST['address'];
     $gender = $_POST['gender'];
+    $active = 0;
+    $token = bin2hex(random_bytes(32));
+    $currentDateTime = date("Y-m-d H:i:s");
     
-    $sql = "INSERT INTO `auth`(`fname`, `lname`, `email`, `country`, `mobile`, `dob`, `password`, `address`, `gender`) VALUES ('$fname','$lname','$email','$country','$mobile','$dob','$hashedPassword','$address','$gender')";
+    $sql = "INSERT INTO `auth`(`fname`, `lname`, `email`, `country`, `mobile`, `dob`, `password`, `address`, `gender`,`image`,`active`,`token`,`verified`,`expire`) VALUES ('$fname','$lname','$email','$country','$mobile','$dob','$hashedPassword','$address','$gender','','$active','$token','No','$currentDateTime')";
     if ($conn->query($sql) === TRUE) {
       $mail->setFrom('ramchandanik872@gmail.com', 'Concetto Labs');
+      $mail->isHTML(true);
       $mail->addAddress($email, $fname . $lname);
-      $mail->Subject = 'Welcome Mail';
-      $mail->Body = 'Hello, ' . $fname . ' ' . $lname . ' Welcome To Concetto Labs..';
+      $mail->Subject = 'User Verification Mail';
+      $mail->Body = '<h1>Verify Your Account</h1>
+      <p>Please click the following link to activate your account</p>
+      <a href="http://localhost/php/Authentication/verify.php?token=' . $token . '">Click Here</a>
+      <h4>Note : This link will be expired after 20 Minutes.</h4>';
       if ($mail->send()) {
         echo "<div id='alertMessage' class='alert alert-success message-container fade show position-fixed top-0 end-0' role='alert'>
-        Registration Successfully !! Please Check Your Mail
+        Registration Successfully! Verification Link has been sent to the email.
         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-      </div>";
+        </div>";
       }
     }else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+      echo "Error: " . $sql . "<br>" . $conn->error;
     }
   }
 ?>
@@ -65,9 +71,9 @@
         <label>Email ID</label>
         <input type="text" name="email" id="email" class="input-field">
       </div>
-      <div class="col-sm-6 mb-3">        
+      <div class="col-sm-6 mb-3">
         <label>Select Country</label>
-        <select id="country" name="country" class="form-select">        
+        <select id="country" name="country" class="form-select">
           <option value="0">Select an option</option>
           <option value="India">India</option>
           <option value="New york">New york</option>
@@ -122,8 +128,7 @@
       <input type="submit" value="Register" class="register" name="submit">
       <p style="color: #800000;">Already registered ??   <a href="signin.php">Please Login</a></p>
     </div>
-  </form> 
+  </form>
 </div>
 </body>
 </html>
-

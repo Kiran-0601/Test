@@ -17,38 +17,62 @@ if (!isset($_SESSION['email'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
   <script>
-    $(document).ready(function() {
-      var perPage = $('#records-per-page').val();
-      loadRecords(1, '', perPage); // Load records for the first page
-
-      $('#search-input').on('input', function() {
-        var perPage = $('#records-per-page').val();
-        var search = $(this).val();
-        loadRecords(1, search, perPage);
-      });
-      $('#records-per-page').on('change', function() {
-        var perPage = $(this).val();
-        loadRecords(1, '', perPage);        // Fetch data when user change per page records
-      });
+  $(document).ready(function() {
+   
+    var table =  $('#recordTable').DataTable({
+      "ajax":{ 
+        "url": "users.php",
+        "type": "POST"
+      }, // Path to your PHP file that retrieves data
+      "columns": [
+        { "data": "id" },
+        { "data": "fname" },
+        { "data": "lname" },
+        { "data": "email" },
+        {
+          "data": "active",
+          "render": function(data, type, row) {
+            var checked = (data == 1) ? 'checked' : '';
+            var toggleSwitch = '<div class="form-switch"><input class="form-check-input toggle-switch" type="checkbox" role="switch" data-id="' + row.id + '" ' + checked + '></div>';
+            return toggleSwitch;
+          }
+        },
+        {
+          "data": null,
+          "render": function(data, type, row) {
+            return '<a href="view.php?id=' + data.id + '" style="font-size:15px;color:#800000"><i class="fas fa-eye"></i>View</a> &nbsp;&nbsp; <a href="edit.php?id=' + data.id + '" style="font-size:15px;color:#800000"><i class="fa fa-edit"></i>Edit</a>&nbsp;&nbsp; <a href="delete.php?id=' + data.id + '" style="font-size:15px;color:#800000" class="delete-link"><i class="fa fa-trash o"></i>Delete</a>';
+          }
+        }
+      ],
     });
-    function loadRecords(page, search, perPage) {
+    $('#recordTable').on('change', '.toggle-switch', function() {
+      
+      var userId = $(this).data('id');
+      var status = ($(this).prop('checked')) ? 1 : 0;
       $.ajax({
-        url: 'users.php',
-        method: 'POST',
-        data: { page: page, search: search, perPage: perPage },
-        success: function(response) {
-          //console.log(response)
-          $('#recordTableBody').html(response.records); // Update table body
-          $('#pagination .pagination').html(response.pagination); // Update pagination controls
+        data: { userId: userId, status: status },
+        type: "post",
+        url: "update-status.php",
+        success: function(response){
+          
+          // Display success message or perform any other action
+          $('#alertmes').html(response.records); // Update table body
+          var alertMessage = document.getElementById('alertMessage');
+          // Hide the alert after 2 seconds
+          setTimeout(function() {
+            alertMessage.classList.remove('show');
+          }, 2000);
         }
       });
-    }
+    });  
+  });
   </script>
 </head>
 <body>
@@ -65,15 +89,11 @@ if (!isset($_SESSION['email'])) {
     </div>
   </div>
 </nav>
-<div class="container mt-5">
+<div class="container mt-8">
   <h2 class="text-center">All Users</h2>
-  <div class="col-lg-4 custom-row-padding">
-      <input type="text" id="search-input" class="form-control" placeholder="Search...">
-    </div>
- 
   <div class="row justify-content-center">    
-    <div class="col-lg-10"><br>
-      <table id="recordTable" class="table"> 
+    <div class="col-lg-12"><br>
+      <table id="recordTable"> 
         <!-- Table headers -->
         <thead>
           <tr>
@@ -81,29 +101,14 @@ if (!isset($_SESSION['email'])) {
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
+            <th>Is Active</th>
             <th>Action</th>
           </tr>
         </thead>
-        <!-- Table body -->
-        <tbody id="recordTableBody">
-          <!-- Data rows will be dynamically added here -->
-        </tbody>
-      </table>
-      <!-- Pagination controls -->
-      <div id="pagination">
-        <ul class="pagination">
-          <!-- Pagination links will be dynamically added here -->
-        </ul>
-        Records Per Page :
-        <div class="form-group" style="width: 60px;">
-          <select id="records-per-page" class="form-select">
-            <option value="2" selected>2</option>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-          </select>
-        </div>
-      </div>
+        <tbody></tbody>
+      </table>  
+    </div>
+    <div id="alertmes">
     </div>
   </div>
 </div>
